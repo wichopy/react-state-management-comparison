@@ -1,21 +1,34 @@
 import React from 'react'
 import Column from '../components/Column'
 import Card from '../components/Card'
+import { inject } from 'mobx-react'
 
 class ColumnContainer extends React.Component {
+
+  onAdd = () => {
+    const description = window.prompt();
+
+    this.props.CardStore.addCard({ Assignee: this.props.columnName, description })
+  };
+
+  onShiftLeft = card => {
+    this.props.CardStore.onShiftLeft(card)
+  };
+
+  onShiftRight = card => {
+    this.props.CardStore.onShiftRight(card)
+  };
+
   render() {
     const {
       cards,
       start,
       end,
-      onShiftLeft,
-      onShiftRight,
       columnName,
-      onAddClick,
     } = this.props
 
     return (
-      <Column columnName={columnName} onAddClick={onAddClick}>
+      <Column columnName={columnName} onAddClick={this.onAdd}>
         {cards.map((card, i) => {
           return (
             <Card
@@ -23,8 +36,8 @@ class ColumnContainer extends React.Component {
               card={card}
               start={start}
               end={end}
-              onShiftLeft={() => onShiftLeft(card)}
-              onShiftRight={() => onShiftRight(card)}
+              onShiftLeft={() => this.onShiftLeft(card)}
+              onShiftRight={() => this.onShiftRight(card)}
             />
           );
         })}
@@ -33,4 +46,4 @@ class ColumnContainer extends React.Component {
   }
 }
 
-export default ColumnContainer
+export default inject('CardStore')(ColumnContainer)

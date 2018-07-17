@@ -4,9 +4,9 @@ import { Provider } from 'mobx-react';
 import './index.css';
 import App from './containers/App';
 import registerServiceWorker from './registerServiceWorker';
-
+import CardStore from './stores/CardStore'
 const stores = {
-
+  CardStore: new CardStore()
 }
 
 ReactDOM.render(

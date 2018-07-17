@@ -1,8 +1,17 @@
 import React from 'react'
 import Column from '../components/Column'
 import Card from '../components/Card'
+import {connect} from 'react-redux'
+import * as actions from '../actions'
 
 class ColumnContainer extends React.Component {
+
+  onAddClick = Assignee => {
+    const description = window.prompt();
+    const task = { Assignee, description }
+    this.props.onAdd(task)
+  };
+
   render() {
     const {
       cards,
@@ -11,11 +20,10 @@ class ColumnContainer extends React.Component {
       onShiftLeft,
       onShiftRight,
       columnName,
-      onAddClick,
     } = this.props
 
     return (
-      <Column columnName={columnName} onAddClick={onAddClick}>
+      <Column columnName={columnName} onAddClick={this.onAddClick}>
         {cards.map((card, i) => {
           return (
             <Card
@@ -33,4 +41,12 @@ class ColumnContainer extends React.Component {
   }
 }
 
-export default ColumnContainer
+export default connect(
+  undefined,
+  // mapDispatchToProps
+  dispatch => ({
+    onAdd: task => dispatch(actions.addTask(task)),
+    onShiftLeft: task => dispatch(actions.shiftTaskLeft(task)),
+    onShiftRight: task => dispatch(actions.shiftTaskRight(task)),
+  })
+)(ColumnContainer)

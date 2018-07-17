@@ -1,14 +1,9 @@
 import React, { Component } from "react";
 import "./App.css";
 
-import Column from "./components/Column";
-import styled from "styled-components";
-import * as logic from "./logic";
-const AssigneeColumns = styled.div`
-  display: flex;
-  flex-direction: row;
-  width: 100vw;
-`;
+import Columns from "../components/Columns";
+import Column from "./Column";
+import * as logic from "../logic";
 
 class App extends Component {
   state = {
@@ -63,14 +58,16 @@ class App extends Component {
     });
   };
 
-  onShiftRight = id => {
-    console.log(id);
+  onShiftRight = card => {
+    this.setState({
+      cards: logic.onShiftRight(card, this.state.cards, this.state.assignees)
+    });
   };
 
   render() {
     return (
       <div className="App">
-        <AssigneeColumns>
+        <Columns>
           {this.state.assignees &&
             this.state.cards &&
             this.state.assignees.map((assignee, i) => {
@@ -89,7 +86,7 @@ class App extends Component {
                 />
               );
             })}
-        </AssigneeColumns>
+        </Columns>
       </div>
     );
   }

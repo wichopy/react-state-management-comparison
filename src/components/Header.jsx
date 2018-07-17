@@ -5,6 +5,6 @@ const H1 = styled.h1`
   text-transform: uppercase;
 `;
 
-const Header = ({}) => <H1>Task Board</H1>;
+const Header = () => <H1>Task Board</H1>;
 
 export default Header;

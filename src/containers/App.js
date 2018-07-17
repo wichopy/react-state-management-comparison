@@ -4,12 +4,10 @@ import { inject, observer } from "mobx-react";
 
 import Columns from "../components/Columns";
 import Column from "./Column";
-import Header from "../components/Header";
 class App extends Component {
   render() {
     return (
       <div className="App">
-        <Header />
         <Columns>
           {this.props.CardStore.assignees.map((assignee, i) => {
             return (

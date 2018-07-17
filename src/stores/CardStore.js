@@ -1,5 +1,5 @@
 import { observable, action, decorate } from 'mobx'
-
+import * as logic from '../logic'
 class CardStore {
   cards = [
     {
@@ -40,21 +40,11 @@ class CardStore {
   addCard = card => this.cards.push(card)
 
   onShiftLeft = card => {
-    let currentAssigneeIndex = this.assignees.indexOf(card.Assignee)
-    let nextAssignee = this.assignees[currentAssigneeIndex - 1]
-    let cardIndex = this.cards.findIndex(item => item.Assignee === card.Assignee && item.description === card.description)
-    const removedCard = this.cards.splice(cardIndex, 1)[0] //mutates
-    removedCard.Assignee = nextAssignee
-    this.cards.push(removedCard)
+    this.cards = logic.onShiftLeft(card, this.cards, this.assignees)
   }
 
   onShiftRight = card => {
-    let currentAssigneeIndex = this.assignees.indexOf(card.Assignee)
-    let nextAssignee = this.assignees[currentAssigneeIndex + 1]
-    let cardIndex = this.cards.findIndex(item => item.Assignee === card.Assignee && item.description === card.description)
-    const removedCard = this.cards.splice(cardIndex, 1)[0] //mutates
-    removedCard.Assignee = nextAssignee
-    this.cards.push(removedCard)
+    this.cards = logic.onShiftRight(card, this.cards, this.assignees)
   }
 }
 
